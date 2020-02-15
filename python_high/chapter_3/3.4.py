@@ -24,3 +24,25 @@ l = [
     {'name': 'albert', 'age': 18, 'sex': 'male'},
 
 ]
+
+# print(set(l))
+# report error: unhashable type: 'dict'
+s = set()
+l1 = []
+for item in l:
+    val = (item['name'], item['age'], item['sex'])
+    if val not in s:
+        s.add(val)
+        l1.append(item)
+print(l1)
+
+# define function, not only for hash type but also for not belonging to hash type
+def func(items, key=None):
+    s = set()
+    for item in items:
+        val = item if key is None else key(item)
+        if val not in s:
+            s.add(val)
+            yield item
+
+print(list(func(l, key=lambda dic: (dic['name'], dic['age'], dic['sex']))))
